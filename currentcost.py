@@ -35,18 +35,22 @@ def process_xml(xml):
 
         print(timestamp, watts)
 
-try:
-    while True:
-        xml = fromstring(read_serial(serial))
+def main():
+    try:
+        while True:
+            xml = fromstring(read_serial(serial))
 
-        if xml.tag != 'msg':
-            continue
+            if xml.tag != 'msg':
+                continue
 
-        if xml.find('hist'):
-            # TODO: Write history here
-            continue
+            if xml.find('hist'):
+                # TODO: Write history here
+                continue
 
-        process_xml(xml)
+            process_xml(xml)
 
-except KeyboardInterrupt:
-    sys.exit()
+    except KeyboardInterrupt:
+        sys.exit()
+
+if __name__ == "__main__":
+    main()
