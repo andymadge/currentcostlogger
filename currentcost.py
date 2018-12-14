@@ -17,7 +17,7 @@ def read_serial(serial):
 
 def extract_values(xml):
     watts = int(xml.find('ch1').find('watts').text)
-    temperature = int(xml.find('tmpr').text)
+    temperature = xml.find('tmpr').text
     return watts, temperature
 
 def process_xml(xml):
