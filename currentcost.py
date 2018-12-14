@@ -17,7 +17,8 @@ def read_serial(serial):
 
 def extract_values(xml):
     watts = int(xml.find('ch1').find('watts').text)
-    return watts
+    temperature = int(xml.find('tmpr').text)
+    return watts, temperature
 
 def process_xml(xml):
         sensor = int(xml.find('sensor').text)
@@ -29,11 +30,11 @@ def process_xml(xml):
             # IAM 1
             pass
 
-        watts = extract_values(xml)
+        watts, temperature = extract_values(xml)
 
         timestamp = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
 
-        print(timestamp, watts)
+        print(timestamp, watts, temperature)
 
 def main():
     try:
