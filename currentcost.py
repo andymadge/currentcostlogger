@@ -19,22 +19,19 @@ def extract_values(xml):
     temperature = xml.find('tmpr').text
     return watts, temperature
 
-def write_datafile(xml, sensor):
-    with open("currentcost_sensor_{}".format(sensor), "a") as f:
-        f.write(xml)
+def write_datafile(data, sensor):
+    with open("data_sensor_{}.xml".format(sensor), "a") as f:
+        f.write(data.decode('utf-8'))
 
-
-f.write(“Hello World”)
-
-def process_xml(xml):
+def process_xml(xml, msg):
         sensor = int(xml.find('sensor').text)
 
         if sensor == 0:
             # whole-house data
-            write_datafile(xml, sensor)
+            write_datafile(msg, sensor)
         elif sensor == 1:
             # IAM 1
-            write_datafile(xml, sensor)
+            write_datafile(msg, sensor)
 
         watts, temperature = extract_values(xml)
 
@@ -45,7 +42,8 @@ def process_xml(xml):
 def main():
     try:
         while True:
-            xml = fromstring(read_serial(serial))
+            msg = read_serial(serial)
+            xml = fromstring(msg)
 
             if xml.tag != 'msg':
                 continue
@@ -54,7 +52,7 @@ def main():
                 # TODO: Write history here
                 continue
 
-            process_xml(xml)
+            process_xml(xml, msg)
 
     except KeyboardInterrupt:
         sys.exit()
