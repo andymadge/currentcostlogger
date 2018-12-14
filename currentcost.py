@@ -7,7 +7,6 @@ from xml.etree.cElementTree import fromstring
 
 serial = serial.Serial('/dev/ttyUSB0', 57600)
 
-
 def read_serial(serial):
     msg = serial.readline()
     if not msg:
@@ -20,15 +19,22 @@ def extract_values(xml):
     temperature = xml.find('tmpr').text
     return watts, temperature
 
+def write_datafile(xml, sensor):
+    with open("currentcost_sensor_{}".format(sensor), "a") as f:
+        f.write(xml)
+
+
+f.write(“Hello World”)
+
 def process_xml(xml):
         sensor = int(xml.find('sensor').text)
 
         if sensor == 0:
             # whole-house data
-            pass
+            write_datafile(xml, sensor)
         elif sensor == 1:
             # IAM 1
-            pass
+            write_datafile(xml, sensor)
 
         watts, temperature = extract_values(xml)
 
