@@ -8,7 +8,7 @@ from xml.etree.cElementTree import fromstring
 serial = serial.Serial('/dev/ttyUSB0', 57600)
 
 def read_serial(serial):
-    msg = serial.readline()
+    msg = serial.readline().decode('utf-8', errors='ignore')
     if not msg:
         raise ValueError('Time out')
     print(msg)
@@ -21,27 +21,22 @@ def extract_values(xml):
 
 def write_datafile(data, sensor):
     with open("data_sensor_{}.xml".format(sensor), "a") as f:
-        f.write(data.decode('utf-8'))
+        f.write(data)
 
 def process_xml(xml, msg):
         sensor = int(xml.find('sensor').text)
 
-        if sensor == 0:
-            # whole-house data
-            write_datafile(msg, sensor)
-        elif sensor == 1:
-            # IAM 1
-            write_datafile(msg, sensor)
+        write_datafile(msg, sensor)
 
         watts, temperature = extract_values(xml)
 
         timestamp = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
 
-        print(timestamp, watts, temperature)
+        # print(timestamp, watts, temperature)
 
 def main():
-    try:
-        while True:
+    while True:
+        try:
             msg = read_serial(serial)
             xml = fromstring(msg)
 
@@ -49,13 +44,27 @@ def main():
                 continue
 
             if xml.find('hist'):
-                # TODO: Write history here
+                data = xml.find('hist').find('data')
+                tag = data[1].tag
+                # print(data[1].tag, data[1].text)
+                if tag[0] == 'h':
+                    # hourly history
+                    write_datafile(msg, "hist_hourly")
+                elif tag[0] == 'd':
+                    # daily history
+                    write_datafile(msg, "hist_daily")
+                elif tag[0] == 'm':
+                    # monthly history
+                    write_datafile(msg, "hist_monthly")
                 continue
 
             process_xml(xml, msg)
 
-    except KeyboardInterrupt:
-        sys.exit()
+        except KeyboardInterrupt:
+            sys.exit()
+        except xml.etree.ElementTree.ParseError:
+            continue      # can't do this cos we're already outside the while loop
+                            # need to put the try/except inside the while loop for this
 
 if __name__ == "__main__":
     main()
