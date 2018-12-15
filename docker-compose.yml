@@ -2,10 +2,10 @@ version: '2'
 
 services:
 
-  currentcost:
+  cc_logger:
     build: .
-    image: currentcost_logger
-    container_name: currentcost_logger
+    image: cc_logger
+    container_name: cc_logger
     devices:
       - "/dev/ttyUSB0:/dev/ttyUSB0"
     volumes:
