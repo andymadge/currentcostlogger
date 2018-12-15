@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+
+  currentcost:
+    build: .
+    image: currentcost_logger
+    container_name: currentcost_logger
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    volumes:
+      - ./data:/root/data
+    restart: on-failure
