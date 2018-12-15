@@ -11,7 +11,7 @@ def read_serial(serial):
     msg = serial.readline().decode('utf-8', errors='ignore').rstrip()
     if not msg:
         raise ValueError('Time out')
-    print(msg)
+    print(now_timestamp(), msg)
     return msg
 
 def extract_values(xml):
@@ -20,12 +20,15 @@ def extract_values(xml):
     return watts, temperature
 
 def write_datafile(data, sensor):
-    with open("data_sensor_{}.xml".format(sensor), "a") as f:
+    with open("sensor_{}_{}.xml".format(sensor, date_today()), "a") as f:
         # f.write(data)
         print(now_timestamp(), data, file=f)
 
 def now_timestamp():
     return datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+
+def date_today():
+    return datetime.datetime.today().strftime('%Y-%m-%d')
 
 def process_xml(xml, msg):
         sensor = int(xml.find('sensor').text)
