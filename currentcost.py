@@ -3,6 +3,7 @@
 import datetime
 import serial
 import sys
+import os
 from xml.etree.cElementTree import fromstring
 
 serial = serial.Serial('/dev/ttyUSB0', 57600)
@@ -20,7 +21,10 @@ def extract_values(xml):
     return watts, temperature
 
 def write_datafile(data, sensor):
-    with open("sensor_{}_{}.xml".format(sensor, date_today()), "a") as f:
+    fname = "sensor_{}_{}.xml".format(sensor, date_today())
+    fname = os.path.join("data", fname)
+    # print(fname)
+    with open(fname, "a") as f:
         # f.write(data)
         print(now_timestamp(), data, file=f)
 
