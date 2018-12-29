@@ -18,16 +18,16 @@ sys.path.insert(1, tests_dirs)
 # then import the module(s) you're testing
 from currentcost import *
 
-sample_xml_0 = '''<msg><src>CC128-v1.29</src><dsb>02616</dsb><time>23:45:32</time><tmpr>23.6</tmpr><sensor>0</sensor><id>00077</id><type>1</type><ch1><watts>00750</watts></ch1></msg>'''
+sample_msg_0 = '''<msg><src>CC128-v1.29</src><dsb>02616</dsb><time>23:45:32</time><tmpr>23.6</tmpr><sensor>0</sensor><id>00077</id><type>1</type><ch1><watts>00750</watts></ch1></msg>'''
 
-sample_xml_1 = '''<msg><src>CC128-v1.29</src><dsb>02616</dsb><time>23:45:30</time><tmpr>23.7</tmpr><sensor>1</sensor><id>02773</id><type>1</type><ch1><watts>00000</watts></ch1></msg>'''
+sample_msg_1 = '''<msg><src>CC128-v1.29</src><dsb>02616</dsb><time>23:45:30</time><tmpr>23.7</tmpr><sensor>1</sensor><id>02773</id><type>1</type><ch1><watts>00000</watts></ch1></msg>'''
 
 class TestStuff(unittest.TestCase):
     """Test the currentcost module"""
 
     def test_extract_values(self):
         """Confirm extraction works"""
-        xml = fromstring(sample_xml_0)
+        xml = fromstring(sample_msg_0)
         watts, temperature = extract_values(xml)
         self.assertEqual((750, "23.6"), (watts, temperature))
 
