@@ -31,6 +31,13 @@ class TestStuff(unittest.TestCase):
         watts, temperature = extract_values(xml)
         self.assertEqual((750, "23.6"), (watts, temperature))
 
+    def test_format_line(self):
+        """Confirm extraction works"""
+        # this is not a very good test since it depends on the current time
+        line = format_line(sample_msg_0)
+        self.assertEqual(line, "{timestamp} {data}".format(
+            timestamp=now_timestamp(), data=sample_msg_0))
+
 
 if __name__ == '__main__':
     unittest.main()
