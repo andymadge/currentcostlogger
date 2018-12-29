@@ -6,7 +6,8 @@ import sys
 import os
 from xml.etree.cElementTree import fromstring
 
-serial = serial.Serial('/dev/ttyUSB0', 57600)
+def config_serial():
+    serial = serial.Serial('/dev/ttyUSB0', 57600)
 
 def read_serial(serial):
     msg = serial.readline().decode('utf-8', errors='ignore').rstrip()
@@ -46,6 +47,7 @@ def process_xml(xml, msg):
         # print(timestamp, watts, temperature)
 
 def main():
+    config_serial()
     while True:
         try:
             msg = read_serial(serial)
