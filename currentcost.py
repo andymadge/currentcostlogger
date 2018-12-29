@@ -40,10 +40,9 @@ def process_xml(xml, msg):
 
         write_datafile(msg, sensor)
 
-        watts, temperature = extract_values(xml)
-
         timestamp = now_timestamp()
 
+        # watts, temperature = extract_values(xml)
         # print(timestamp, watts, temperature)
 
 def main():
