@@ -31,12 +31,17 @@ class TestStuff(unittest.TestCase):
         watts, temperature = extract_values(xml)
         self.assertEqual((750, "23.6"), (watts, temperature))
 
-    def test_format_line(self):
-        """Confirm extraction works"""
+    def test_format_line_sensor_0(self):
+        """Check output for sensor 0, second field should be empty"""
         # this is not a very good test since it depends on the current time
-        line = format_line(sample_msg_0)
-        self.assertEqual(line, "{timestamp} {data}".format(
-            timestamp=now_timestamp(), data=sample_msg_0))
+        line = format_line("the_data", 0)
+        self.assertEqual(line, "{},,the_data".format(now_timestamp()))
+
+    def test_format_line_sensor_1(self):
+        """Check output for sensor 1, second field should contain IAM name"""
+        # this is not a very good test since it depends on the current time
+        line = format_line("the_data", 1)
+        self.assertEqual(line, "{},Nursery,the_data".format(now_timestamp()))
 
 
 if __name__ == '__main__':

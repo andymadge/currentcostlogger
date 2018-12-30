@@ -21,9 +21,15 @@ def extract_values(xml):
     temperature = xml.find('tmpr').text
     return watts, temperature
 
-def format_line(data):
-    line = "{timestamp} {data}".format(timestamp=now_timestamp(), data=data)
+def format_line(data, sensor, iam=""):
+    if sensor > 0:
+        iam = get_iam_name()
+    line = "{},{},{}".format(now_timestamp(), iam, data)
     return line
+
+def get_iam_name():
+    iam = os.environ['IAM_NAME']
+    return iam
 
 def write_datafile(data, sensor):
     fname = "sensor_{}_{}.xml".format(sensor, date_today())
@@ -31,7 +37,8 @@ def write_datafile(data, sensor):
     # print(fname)
     with open(fname, "a") as f:
         # f.write(data)
-        print(format_line(data), file=f)
+
+        print(format_line(data, sensor), file=f)
 
 def now_timestamp():
     return datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
