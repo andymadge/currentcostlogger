@@ -6,11 +6,8 @@ import sys
 import os
 from xml.etree.cElementTree import fromstring
 
-def config_serial():
-    serial = serial.Serial('/dev/ttyUSB0', 57600)
-
-def read_serial(serial):
-    msg = serial.readline().decode('utf-8', errors='ignore').rstrip()
+def read_serial(ser):
+    msg = ser.readline().decode('utf-8', errors='ignore').rstrip()
     if not msg:
         raise ValueError('Time out')
     print(now_timestamp(), msg)
@@ -57,10 +54,10 @@ def process_xml(xml, msg):
     # print(timestamp, watts, temperature)
 
 def main():
-    config_serial()
+    ser = serial.Serial('/dev/ttyUSB0', 57600)
     while True:
         try:
-            msg = read_serial(serial)
+            msg = read_serial(ser)
             xml = fromstring(msg)
 
             if xml.tag != 'msg':
