@@ -40,6 +40,7 @@ class TestStuff(unittest.TestCase):
     def test_format_line_sensor_1(self):
         """Check output for sensor 1, second field should contain IAM name"""
         # this is not a very good test since it depends on the current time
+        # also it actually tests multiple functions rather than just 1
         os.environ['IAM_NAME'] = "Nursery123"
         line = format_line("the_data", 1)
         self.assertEqual(line, "{},Nursery123,the_data".format(now_timestamp()))
