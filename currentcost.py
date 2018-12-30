@@ -40,14 +40,14 @@ def date_today():
     return datetime.datetime.today().strftime('%Y-%m-%d')
 
 def process_xml(xml, msg):
-        sensor = int(xml.find('sensor').text)
+    sensor = int(xml.find('sensor').text)
 
-        write_datafile(msg, sensor)
+    write_datafile(msg, sensor)
 
-        timestamp = now_timestamp()
+    timestamp = now_timestamp()
 
-        # watts, temperature = extract_values(xml)
-        # print(timestamp, watts, temperature)
+    # watts, temperature = extract_values(xml)
+    # print(timestamp, watts, temperature)
 
 def main():
     config_serial()
