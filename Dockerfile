@@ -6,4 +6,6 @@ WORKDIR /root
 
 COPY ./currentcost.py .
 
+RUN chmod +x currentcost.py
+
 CMD ["./currentcost.py"]
