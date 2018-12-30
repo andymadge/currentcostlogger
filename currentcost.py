@@ -28,7 +28,7 @@ def format_line(data, sensor, iam=""):
     return line
 
 def get_iam_name():
-    iam = os.environ['IAM_NAME']
+    iam = os.getenv('IAM_NAME', "")
     return iam
 
 def write_datafile(data, sensor):
