@@ -64,18 +64,19 @@ def main():
                 continue
 
             if xml.find('hist'):
-                data = xml.find('hist').find('data')
-                tag = data[1].tag
-                # print(data[1].tag, data[1].text)
-                if tag[0] == 'h':
-                    # hourly history
-                    write_datafile(msg, "hist_hourly")
-                elif tag[0] == 'd':
-                    # daily history
-                    write_datafile(msg, "hist_daily")
-                elif tag[0] == 'm':
-                    # monthly history
-                    write_datafile(msg, "hist_monthly")
+                # # This is commented out since I have no useful way to display it
+                # data = xml.find('hist').find('data')
+                # tag = data[1].tag
+                # # print(data[1].tag, data[1].text)
+                # if tag[0] == 'h':
+                #     # hourly history
+                #     write_datafile(msg, "hist_hourly")
+                # elif tag[0] == 'd':
+                #     # daily history
+                #     write_datafile(msg, "hist_daily")
+                # elif tag[0] == 'm':
+                #     # monthly history
+                #     write_datafile(msg, "hist_monthly")
                 continue
             
             process_xml(xml, msg)
