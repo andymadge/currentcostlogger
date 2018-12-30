@@ -6,10 +6,8 @@ import sys
 import os
 from xml.etree.cElementTree import fromstring
 
-serial = serial.Serial('/dev/ttyUSB0', 57600)
-
-def read_serial(serial):
-    msg = serial.readline().decode('utf-8', errors='ignore').rstrip()
+def read_serial(ser):
+    msg = ser.readline().decode('utf-8', errors='ignore').rstrip()
     if not msg:
         raise ValueError('Time out')
     print(now_timestamp(), msg)
@@ -20,13 +18,24 @@ def extract_values(xml):
     temperature = xml.find('tmpr').text
     return watts, temperature
 
+def format_line(data, sensor, iam=""):
+    if sensor > 0:
+        iam = get_iam_name()
+    line = "{},{},{}".format(now_timestamp(), iam, data)
+    return line
+
+def get_iam_name():
+    iam = os.getenv('IAM_NAME', "")
+    return iam
+
 def write_datafile(data, sensor):
     fname = "sensor_{}_{}.xml".format(sensor, date_today())
     fname = os.path.join("data", fname)
     # print(fname)
     with open(fname, "a") as f:
         # f.write(data)
-        print(now_timestamp(), data, file=f)
+
+        print(format_line(data, sensor), file=f)
 
 def now_timestamp():
     return datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -35,20 +44,20 @@ def date_today():
     return datetime.datetime.today().strftime('%Y-%m-%d')
 
 def process_xml(xml, msg):
-        sensor = int(xml.find('sensor').text)
+    sensor = int(xml.find('sensor').text)
 
-        write_datafile(msg, sensor)
+    write_datafile(msg, sensor)
 
-        watts, temperature = extract_values(xml)
+    timestamp = now_timestamp()
 
-        timestamp = now_timestamp()
-
-        # print(timestamp, watts, temperature)
+    # watts, temperature = extract_values(xml)
+    # print(timestamp, watts, temperature)
 
 def main():
+    ser = serial.Serial('/dev/ttyUSB0', 57600)
     while True:
         try:
-            msg = read_serial(serial)
+            msg = read_serial(ser)
             xml = fromstring(msg)
 
             if xml.tag != 'msg':
