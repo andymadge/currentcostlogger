@@ -10,4 +10,7 @@ services:
       - "/dev/ttyUSB0:/dev/ttyUSB0"
     volumes:
       - ./data:/root/data
+    # Env vars are read from .env file automatically
+    environment:
+      IAM_NAME: ${IAM_NAME}
     restart: on-failure
