@@ -18,18 +18,19 @@ sys.path.insert(1, tests_dirs)
 # then import the module(s) you're testing
 from currentcost import *
 
-sample_msg_0 = '''<msg><src>CC128-v1.29</src><dsb>02616</dsb><time>23:45:32</time><tmpr>23.6</tmpr><sensor>0</sensor><id>00077</id><type>1</type><ch1><watts>00750</watts></ch1></msg>'''
+sample_msg_0 = '''2019-01-09T21:05:30Z,,<msg><src>CC128-v1.29</src><dsb>02628</dsb><time>21:05:14</time><tmpr>24.3</tmpr><sensor>0</sensor><id>00077</id><type>1</type><ch1><watts>01397</watts></ch1></msg>'''
 
-sample_msg_1 = '''<msg><src>CC128-v1.29</src><dsb>02616</dsb><time>23:45:30</time><tmpr>23.7</tmpr><sensor>1</sensor><id>02773</id><type>1</type><ch1><watts>00000</watts></ch1></msg>'''
+sample_msg_1 = '''2019-01-09T21:34:22Z,Dishwasher,<msg><src>CC128-v1.29</src><dsb>02628</dsb><time>21:34:06</time><tmpr>24.5</tmpr><sensor>1</sensor><id>02773</id><type>1</type><ch1><watts>02197</watts></ch1></msg>'''
 
 class TestStuff(unittest.TestCase):
     """Test the currentcost module"""
 
     def test_extract_values(self):
         """Confirm extraction works"""
-        xml = fromstring(sample_msg_0)
+        msg = sample_msg_0.split(',')[2]
+        xml = fromstring(msg)
         watts, temperature = extract_values(xml)
-        self.assertEqual((750, "23.6"), (watts, temperature))
+        self.assertEqual((1397, "24.3"), (watts, temperature))
 
     def test_format_line_sensor_0(self):
         """Check output for sensor 0, second field should be empty"""
