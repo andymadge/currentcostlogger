@@ -2,10 +2,10 @@ version: '2'
 
 services:
 
-  cc_logger:
+  cclogger:
     build: .
-    image: cc_logger
-    container_name: cc_logger
+    image: currentcostlogger
+    container_name: cclogger
     devices:
       - "/dev/ttyUSB0:/dev/ttyUSB0"
     volumes:
@@ -13,4 +13,4 @@ services:
     # Env vars are read from .env file automatically
     environment:
       IAM_NAME: ${IAM_NAME}
-    restart: on-failure
+    restart: always
