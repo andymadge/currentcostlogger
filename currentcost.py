@@ -19,6 +19,7 @@ def extract_values(xml):
     return watts, temperature
 
 def format_line(data, sensor, iam=""):
+    # TODO: This needs to handle non-number senser names for history data
     if sensor > 0:
         iam = get_iam_name()
     line = "{},{},{}".format(now_timestamp(), iam, data)
@@ -34,7 +35,6 @@ def write_datafile(data, sensor):
     # print(fname)
     with open(fname, "a") as f:
         # f.write(data)
-
         print(format_line(data, sensor), file=f)
 
 def now_timestamp():
