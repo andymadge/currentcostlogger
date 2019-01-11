@@ -1,4 +1,7 @@
-This is a simple script that runs continuously and reads the data from the CurrentCust Energy Monitor on the serial port.
+CurrentCost Logger
+===
+
+This is a simple python script that runs continuously and reads the data from the CurrentCust Energy Monitor on the serial port.
 
 It adds a timestamp and saves the data to daily text files, separated by sensor.
 
