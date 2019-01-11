@@ -1,13 +1,13 @@
 CurrentCost Logger
 ===
 
-This is a simple python script that runs continuously and reads the data from the CurrentCust Energy Monitor on the serial port.
+This is a simple python script that runs continuously and reads the data from the CurrentCost Energy Monitor on the serial port.
 
-It adds a timestamp and saves the data to daily text files, separated by sensor.
+It adds a timestamp and saves the data to daily text files, separated by sensor.  For simplicity, the output is basically CSV, but the last of the fields contains the raw XML from the monitor.
 
 It can also save the history data, but this is currently commented out since I have no use for it.
 
-I am then using Filebeat to send the data to Logstash, which in turn routes to both Elastic Search and EmonCMS.
+I am then using Filebeat to send the data to Logstash, which in turn routes to both Elasticsearch and EmonCMS.
 
 It can be run directly on the local computer, or it can be run in a Docker container.
 
@@ -19,7 +19,7 @@ Local Deployment
 1. Install PySerial `pip3 install pyserial` or even better with pipenv `pipenv3 install pyserial`
 2. Run the script `./currentcost.py`
 
-It will write xml datafiles in the `data` subfolder.
+It will write datafiles in the `data` subfolder.
 
 
 Docker Deployment
